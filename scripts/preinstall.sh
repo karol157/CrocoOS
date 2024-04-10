@@ -17,14 +17,6 @@ setfont ter-v22b
 sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 pacman -S --noconfirm --needed reflector rsync grub
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-echo -ne "
--------------------------------------------------------------------------
-                    Ustawianie $iso Serwerow lustrzanych w celu szybszej instalacji
--------------------------------------------------------------------------
-"
-reflector -a 48 -c $iso -f 5 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
-mkdir /mnt &>/dev/null # Hiding error message if any
-echo -ne "
 -------------------------------------------------------------------------
                     Instalacja Prerequisites
 -------------------------------------------------------------------------
