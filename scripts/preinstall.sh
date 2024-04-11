@@ -164,8 +164,4 @@ if [[  $TOTAL_MEM -lt 8000000 ]]; then
     # The line below is written to /mnt/ but doesn't contain /mnt/, since it's just / for the system itself.
     echo "/opt/swap/swapfile	none	swap	sw	0	0" >> /mnt/etc/fstab # Add swap to fstab, so it KEEPS working after installation.
 fi
-echo -ne "
--------------------------------------------------------------------------
-                    SYSTEM GOTOWY NA 1-setup.sh
--------------------------------------------------------------------------
-"
+
