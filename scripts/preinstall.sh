@@ -17,15 +17,9 @@ setfont ter-v22b
 sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 pacman -S --noconfirm --needed reflector rsync grub
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
--------------------------------------------------------------------------
-                    Instalacja Prerequisites
--------------------------------------------------------------------------
-"
+
 pacman -S --noconfirm --needed gptfdisk btrfs-progs glibc
-echo -ne "
--------------------------------------------------------------------------
-                    Formatowanie dysku
--------------------------------------------------------------------------
+
 "
 umount -A --recursive /mnt # make sure everything is unmounted before we start
 # disk prep
@@ -42,10 +36,7 @@ fi
 partprobe ${DISK} # reread partition table to ensure it is correct
 
 # make filesystems
-echo -ne "
--------------------------------------------------------------------------
-                    Tworzenie Filesystem
--------------------------------------------------------------------------
+
 "
 # @description Creates the btrfs subvolumes. 
 createsubvolumes () {
@@ -121,10 +112,7 @@ if ! grep -qs '/mnt' /proc/mounts; then
     echo "Rebooting in 1 Second ..." && sleep 1
     reboot now
 fi
-echo -ne "
--------------------------------------------------------------------------
-                    Arch zainstalowany na Main Drive
--------------------------------------------------------------------------
+
 "
 pacstrap /mnt base base-devel linux linux-firmware vim nano sudo archlinux-keyring wget libnewt --noconfirm --needed
 echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
@@ -136,20 +124,14 @@ echo " s
   Generated /etc/fstab:
 "
 cat /mnt/etc/fstab
-echo -ne "
--------------------------------------------------------------------------
-                    GRUB BIOS Bootloader instalacja & wybor
--------------------------------------------------------------------------
+
 "
 if [[ ! -d "/sys/firmware/efi" ]]; then
     grub-install --boot-directory=/mnt/boot ${DISK}
 else
     pacstrap /mnt efibootmgr --noconfirm --needed
 fi
-echo -ne "
--------------------------------------------------------------------------
-                    Wybor pamieci systemu <8G
--------------------------------------------------------------------------
+
 "
 TOTAL_MEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
 if [[  $TOTAL_MEM -lt 8000000 ]]; then
