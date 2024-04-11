@@ -172,19 +172,25 @@ echo -ne "
 ------------------------------------------------------------------------
 "
 }
-ilesystem () {
+filesystem () {
 echo -ne "
-Wybierz system blikow do boot i root
+Please Select your file system for both boot and root
 "
-options=("ext4" "exit")
+options=("btrfs" "ext4" "luks" "exit")
 select_option $? 1 "${options[@]}"
 
 case $? in
-0) set_option FS ext4;;
-1) exit ;;
+0) set_option FS btrfs;;
+1) set_option FS ext4;;
+2) 
+    set_password "LUKS_PASSWORD"
+    set_option FS luks
+    ;;
+3) exit ;;
 *) echo "Wrong option please select again"; filesystem;;
 esac
 }
+# @description Detects and sets timezone. 
 timezone () {
 # Added this from arch wiki https://wiki.archlinux.org/title/System_time
 time_zone="$(curl --fail https://ipapi.co/timezone)"
