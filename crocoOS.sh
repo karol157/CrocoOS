@@ -13,14 +13,14 @@ echo -ne "
   ╚═════╝ ╚═╝  ╚═╝  ╚══════╝   ╚═════╝  ╚══════╝
   ------------------------------------------------------------------------
   "
-    ( bash $SCRIPTS_DIR/startup.sh)|& tee strtup.log
+    ( bash $SCRIPTS_DIR/startup.sh)|& tee startup.log
       source $CONFIGS_DIR/setup.conf
-    ( bash $SCRIPTS_DIR/preinstall.sh)|& tee preinstall.log
-    ( arch-chroot /mnt $HOME/CrocoOS/scripts/setup.sh)|& tee setup.log
+    ( bash $SCRIPTS_DIR/preinstall.sh)|& tee 0-preinstall.log
+    ( arch-chroot /mnt $HOME/CrocoOS/scripts/setup.sh)|& tee 1-setup.log
     if [[ ! $DESKTOM_ENV == server ]]; then
         (arch-chroot /mnt /usr/bin/runuser -u $USERNAME -- /home/$USERNAME/CrocoOS/scripts/user.sh ) |& tee user.lot
     fi
-    ( arch-chroot /mnt $HOME/CrocoOS/scripts/post-setup.sh )|& tee post-setup.log
+    ( arch-chroot /mnt $HOME/CrocoOS/scripts/post-setup.sh )|& tee 3-post-setup.log
     cp -v *.log /mnt/home/$USERNAME
 
 echo -ne "
